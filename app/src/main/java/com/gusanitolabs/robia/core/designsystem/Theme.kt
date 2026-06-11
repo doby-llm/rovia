@@ -1,5 +1,6 @@
 package com.gusanitolabs.robia.core.designsystem
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.lightColorScheme
@@ -46,11 +47,11 @@ private val RobiaLightColorScheme = lightColorScheme(
 )
 
 val RobiaShapes = Shapes(
-    extraSmall = 4.dp,
-    small = 8.dp,
-    medium = 12.dp,
-    large = 16.dp,
-    extraLarge = 24.dp,
+    extraSmall = RoundedCornerShape(4.dp),
+    small = RoundedCornerShape(8.dp),
+    medium = RoundedCornerShape(12.dp),
+    large = RoundedCornerShape(16.dp),
+    extraLarge = RoundedCornerShape(24.dp),
 )
 
 @Composable
