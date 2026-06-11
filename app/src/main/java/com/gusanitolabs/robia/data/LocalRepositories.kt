@@ -1,0 +1,97 @@
+package com.gusanitolabs.robia.data
+
+import com.gusanitolabs.robia.core.model.ClothingColorMetrics
+import com.gusanitolabs.robia.core.model.ClothingItem
+import com.gusanitolabs.robia.core.model.DefaultTags
+import com.gusanitolabs.robia.core.model.GarmentTag
+import com.gusanitolabs.robia.core.model.TagCategory
+import com.gusanitolabs.robia.data.local.ClothingItemEntity
+import com.gusanitolabs.robia.data.local.ClothingItemWithTags
+import com.gusanitolabs.robia.data.local.ColorMetricsEntity
+import com.gusanitolabs.robia.data.local.GarmentTagEntity
+import com.gusanitolabs.robia.data.local.TagCategoryEntity
+import com.gusanitolabs.robia.data.local.TagDao
+import com.gusanitolabs.robia.data.local.WardrobeDao
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+
+class LocalWardrobeRepository(
+    private val wardrobeDao: WardrobeDao,
+) : WardrobeRepository {
+    override fun observeActiveItems(): Flow<List<ClothingItem>> =
+        wardrobeDao.observeActiveItems().map { items -> items.map(ClothingItemWithTags::toDomain) }
+
+    override fun observeItem(id: String): Flow<ClothingItem?> =
+        wardrobeDao.observeItem(id).map { it?.toDomain() }
+
+    override suspend fun upsertItem(item: ClothingItem) {
+        wardrobeDao.upsertItemWithTags(item.toEntity(), item.tags.map(GarmentTag::id))
+    }
+
+    override suspend fun archiveItem(id: String, updatedAtEpochMillis: Long) {
+        wardrobeDao.archiveItem(id, updatedAtEpochMillis)
+    }
+}
+
+class LocalTagRepository(
+    private val tagDao: TagDao,
+) : TagRepository {
+    override fun observeCategories(): Flow<List<TagCategory>> =
+        tagDao.observeCategories().map { categories -> categories.map(TagCategoryEntity::toDomain) }
+
+    override fun observeTags(): Flow<List<GarmentTag>> =
+        tagDao.observeTags().map { tags -> tags.map(GarmentTagEntity::toDomain) }
+
+    override suspend fun upsertCategory(category: TagCategory) {
+        tagDao.upsertCategory(category.toEntity())
+    }
+
+    override suspend fun upsertTag(tag: GarmentTag) {
+        tagDao.upsertTag(tag.toEntity())
+    }
+
+    override suspend fun seedDefaultsIfNeeded() {
+        tagDao.seedCategories(DefaultTags.categories.map(TagCategory::toEntity))
+        tagDao.seedTags(DefaultTags.tags.map(GarmentTag::toEntity))
+    }
+}
+
+private fun ClothingItemWithTags.toDomain(): ClothingItem = ClothingItem(
+    id = item.id,
+    name = item.name,
+    notes = item.notes,
+    photoUri = item.photoUri,
+    tags = tags.map(GarmentTagEntity::toDomain),
+    colorMetrics = ClothingColorMetrics(
+        primaryRawValue = item.colorMetrics.primaryRawValue,
+        primaryDisplayLabel = item.colorMetrics.primaryDisplayLabel,
+        secondaryRawValue = item.colorMetrics.secondaryRawValue,
+        secondaryDisplayLabel = item.colorMetrics.secondaryDisplayLabel,
+    ),
+    isFavorite = item.isFavorite,
+    isArchived = item.isArchived,
+    createdAtEpochMillis = item.createdAtEpochMillis,
+    updatedAtEpochMillis = item.updatedAtEpochMillis,
+)
+
+private fun ClothingItem.toEntity(): ClothingItemEntity = ClothingItemEntity(
+    id = id,
+    name = name,
+    notes = notes,
+    photoUri = photoUri,
+    colorMetrics = ColorMetricsEntity(
+        primaryRawValue = colorMetrics.primaryRawValue,
+        primaryDisplayLabel = colorMetrics.primaryDisplayLabel,
+        secondaryRawValue = colorMetrics.secondaryRawValue,
+        secondaryDisplayLabel = colorMetrics.secondaryDisplayLabel,
+    ),
+    isFavorite = isFavorite,
+    isArchived = isArchived,
+    createdAtEpochMillis = createdAtEpochMillis,
+    updatedAtEpochMillis = updatedAtEpochMillis,
+)
+
+private fun TagCategoryEntity.toDomain(): TagCategory = TagCategory(id, name, sortOrder, isSystem)
+private fun TagCategory.toEntity(): TagCategoryEntity = TagCategoryEntity(id, name, sortOrder, isSystem)
+private fun GarmentTagEntity.toDomain(): GarmentTag = GarmentTag(id, categoryId, name, sortOrder, isSystem)
+private fun GarmentTag.toEntity(): GarmentTagEntity = GarmentTagEntity(id, categoryId, name, sortOrder, isSystem)

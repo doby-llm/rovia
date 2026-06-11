@@ -1,0 +1,21 @@
+package com.gusanitolabs.robia.data
+
+import com.gusanitolabs.robia.core.model.ClothingItem
+import com.gusanitolabs.robia.core.model.GarmentTag
+import com.gusanitolabs.robia.core.model.TagCategory
+import kotlinx.coroutines.flow.Flow
+
+interface WardrobeRepository {
+    fun observeActiveItems(): Flow<List<ClothingItem>>
+    fun observeItem(id: String): Flow<ClothingItem?>
+    suspend fun upsertItem(item: ClothingItem)
+    suspend fun archiveItem(id: String, updatedAtEpochMillis: Long)
+}
+
+interface TagRepository {
+    fun observeCategories(): Flow<List<TagCategory>>
+    fun observeTags(): Flow<List<GarmentTag>>
+    suspend fun upsertCategory(category: TagCategory)
+    suspend fun upsertTag(tag: GarmentTag)
+    suspend fun seedDefaultsIfNeeded()
+}

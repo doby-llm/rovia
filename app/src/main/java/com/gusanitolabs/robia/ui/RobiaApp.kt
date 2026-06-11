@@ -48,9 +48,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,6 +70,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gusanitolabs.robia.R
 import com.gusanitolabs.robia.core.designsystem.RobiaTheme
+import com.gusanitolabs.robia.core.model.LanguagePreference
+import com.gusanitolabs.robia.core.model.RobiaSettings
+import com.gusanitolabs.robia.data.SettingsRepository
+import com.gusanitolabs.robia.data.TagRepository
+import com.gusanitolabs.robia.data.WardrobeRepository
+import kotlinx.coroutines.launch
 
 private sealed interface RobiaRoute {
     @get:StringRes
@@ -106,15 +115,37 @@ private val bottomDestinations = listOf(
 )
 
 @Composable
-fun RobiaApp() {
+fun RobiaApp(
+    settingsRepository: SettingsRepository,
+    wardrobeRepository: WardrobeRepository,
+    tagRepository: TagRepository,
+) {
+    val settings by settingsRepository.settings.collectAsState(initial = RobiaSettings())
+    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(tagRepository) {
+        tagRepository.seedDefaultsIfNeeded()
+    }
+
+    // Repository is plumbed here so browse/edit screens can bind to the local catalog next.
+    remember(wardrobeRepository) { wardrobeRepository }
+
     RobiaTheme {
-        RobiaShell()
+        RobiaShell(
+            settings = settings,
+            onLanguageSelected = { language ->
+                scope.launch { settingsRepository.setLanguagePreference(language) }
+            },
+        )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun RobiaShell() {
+private fun RobiaShell(
+    settings: RobiaSettings,
+    onLanguageSelected: (LanguagePreference) -> Unit,
+) {
     var currentRoute: RobiaRoute by remember { mutableStateOf(RobiaRoute.Browse) }
     var settingsExpanded by remember { mutableStateOf(false) }
 
@@ -144,6 +175,11 @@ private fun RobiaShell() {
                         }
                         SettingsMenu(
                             expanded = settingsExpanded,
+                            currentLanguage = settings.languagePreference,
+                            onLanguageSelected = { language ->
+                                onLanguageSelected(language)
+                                settingsExpanded = false
+                            },
                             onDismiss = { settingsExpanded = false },
                             onLanguageClick = {
                                 currentRoute = RobiaRoute.LanguageSettings
@@ -178,6 +214,8 @@ private fun RobiaShell() {
 @Composable
 private fun SettingsMenu(
     expanded: Boolean,
+    currentLanguage: LanguagePreference,
+    onLanguageSelected: (LanguagePreference) -> Unit,
     onDismiss: () -> Unit,
     onLanguageClick: () -> Unit,
 ) {
@@ -190,6 +228,18 @@ private fun SettingsMenu(
             leadingIcon = { Icon(Icons.Rounded.Language, contentDescription = null) },
             onClick = onLanguageClick,
         )
+        LanguagePreference.entries.forEach { language ->
+            DropdownMenuItem(
+                text = {
+                    Text(
+                        text = stringResource(language.labelRes),
+                        fontWeight = if (language == currentLanguage) FontWeight.SemiBold else FontWeight.Normal,
+                    )
+                },
+                onClick = { onLanguageSelected(language) },
+            )
+        }
+        Divider()
         DropdownMenuItem(
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
@@ -206,6 +256,14 @@ private fun SettingsMenu(
         )
     }
 }
+
+private val LanguagePreference.labelRes: Int
+    get() = when (this) {
+        LanguagePreference.System -> R.string.language_system
+        LanguagePreference.English -> R.string.language_english
+        LanguagePreference.Spanish -> R.string.language_spanish
+        LanguagePreference.German -> R.string.language_german
+    }
 
 @Composable
 private fun RobiaBottomBar(
@@ -545,5 +603,10 @@ private fun LanguageSettingsScreen(innerPadding: PaddingValues) {
 @Preview(showBackground = true)
 @Composable
 private fun RobiaAppPreview() {
-    RobiaApp()
+    RobiaTheme {
+        RobiaShell(
+            settings = RobiaSettings(),
+            onLanguageSelected = {},
+        )
+    }
 }
