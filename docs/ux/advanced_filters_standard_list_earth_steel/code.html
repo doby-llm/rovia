@@ -1,0 +1,191 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Closet Harmony - Advanced Filters</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {primary: "#1d100d", "on-primary": "#ffffff", "primary-container": "#332421", "on-primary-container": "#a08a85", secondary: "#6b5c4d", surface: "#f9f9f9", "surface-dim": "#dadada", "on-surface": "#1a1c1c", "on-surface-variant": "#4f4442", "surface-container": "#eeeeee", "surface-container-high": "#e8e8e8", outline: "#817472", "secondary-fixed": "#f4dfcc", background: "#f9f9f9", "inverse-primary": "#dac1bc", "secondary-fixed-dim": "#d7c3b0", "on-secondary-fixed": "#241a0e", "on-primary-fixed-variant": "#54433f", "surface-tint": "#6d5a56", "on-secondary": "#ffffff", "inverse-surface": "#2f3131", "surface-variant": "#e2e2e2", "tertiary-container": "#431d00", "outline-variant": "#d2c3c0", "on-tertiary-fixed": "#311300", "on-tertiary-container": "#c37f50", "surface-container-low": "#f3f3f4", "secondary-container": "#f1dcc9", "inverse-on-surface": "#f0f1f1", "tertiary-fixed": "#ffdcc7", "on-error": "#ffffff", "on-secondary-container": "#6f6051", "on-tertiary-fixed-variant": "#6d390f", "tertiary-fixed-dim": "#ffb786", tertiary: "#240d00", "primary-fixed-dim": "#dac1bc", error: "#ba1a1a", "on-background": "#1a1c1c", "on-tertiary": "#ffffff", "surface-container-highest": "#e2e2e2", "primary-fixed": "#f7ddd8", "surface-container-lowest": "#ffffff", "on-secondary-fixed-variant": "#524436", "error-container": "#ffdad6", "on-primary-fixed": "#261815", "surface-bright": "#f9f9f9", "on-error-container": "#93000a"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, fontFamily: {headline: ["Inter"], display: ["Inter"], body: ["Inter"], label: ["Inter"]}, fontSize: {}}}};</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: #4A4E4D;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary/20">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex items-center justify-between px-6 h-16 w-full bg-surface">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="spa">spa</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Closet Harmony</h1>
+</div>
+<div class="flex items-center gap-4">
+
+<div class="w-10 h-10 rounded-full bg-surface-container-high overflow-hidden border border-outline/10">
+<img alt="User Profile" class="" data-alt="A clean, professional studio portrait of a modern minimalist individual. The lighting is soft and even, highlighting a neutral Earth and Steel color palette. The background is a soft matte gray, matching the minimalist aesthetic of a high-end fashion organization application. The overall mood is organized, calm, and sophisticated." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEsoZm0AKiYvl7yYUg4N3vDJzc37QUzOHGxw6GqSdsZmjL_ZV1YQrLTW1O_h-ThrhbS023vEwD0bcB1btE2hMchh3Kbofzuy7mxtoe-bjnriW43bEjnsVvUZyMWkYTDlzy3MnecxVMjPDYGgGRxtADEwnHHpB3Rlt28IedJaEcdpyeR15zvGxQjRJiljEMu-TmYvzC3wBJ4zb6Je2B-TjltEA_6nMu1zrf-QBedhVzzr2bZCKmSiJYCFcBoeFIqZNQx7II838Is6A">
+</div>
+</div>
+</header>
+<!-- Main Content: Advanced Filters -->
+<main class="pt-20 pb-28 px-6 max-w-2xl mx-auto">
+<header class="mb-8 flex items-center justify-between">
+<div>
+<h2 class="text-2xl font-bold tracking-tight text-primary">Advanced Filters</h2>
+<p class="text-on-surface-variant text-sm">Refine your wardrobe view</p>
+</div>
+<button class="text-sm font-semibold text-primary underline underline-offset-4">Reset all</button>
+</header>
+<div class="space-y-10">
+<!-- Section 1: Categories -->
+<section>
+<h3 class="text-sm font-bold uppercase tracking-widest text-secondary mb-4">Categories</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-4 py-2 rounded-full border border-outline/30 text-sm font-medium bg-primary text-on-primary transition-all">Tops</button>
+<button class="px-4 py-2 rounded-full border border-outline/30 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-all">Bottoms</button>
+<button class="px-4 py-2 rounded-full border border-outline/30 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-all">Dresses</button>
+<button class="px-4 py-2 rounded-full border border-outline/30 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-all">Outerwear</button>
+<button class="px-4 py-2 rounded-full border border-outline/30 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-all">Shoes</button>
+<button class="px-4 py-2 rounded-full border border-outline/30 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-all">Accessories</button>
+</div>
+</section>
+<!-- Section 2: Seasons -->
+<section>
+<h3 class="text-sm font-bold uppercase tracking-widest text-secondary mb-4">Seasons</h3>
+<div class="flex flex-wrap gap-2">
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-outline/30 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="filter_vintage">filter_vintage</span>
+                        Spring
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-outline/30 text-sm font-medium bg-primary text-on-primary transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="wb_sunny">wb_sunny</span>
+                        Summer
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-outline/30 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="eco">eco</span>
+                        Fall
+                    </button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-full border border-outline/30 text-sm font-medium text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined text-lg" data-icon="ac_unit">ac_unit</span>
+                        Winter
+                    </button>
+</div>
+</section>
+<!-- Section 3: Fit Range Slider -->
+<section>
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest text-secondary">Fit</h3>
+
+</div>
+<div class="flex items-center justify-between bg-white p-4 rounded-xl border border-outline/10">
+<span class="text-sm font-medium text-on-surface-variant">Status</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox">
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+<span class="ms-3 text-sm font-medium text-on-surface-variant peer-checked:text-primary">Valid</span>
+</label>
+</div>
+</section>
+<!-- Section 4: Location Dropdown -->
+<section>
+<h3 class="text-sm font-bold uppercase tracking-widest text-secondary mb-4">Location</h3>
+<div class="relative group">
+<button class="w-full flex items-center justify-between px-4 py-3 bg-white border border-outline/20 rounded-xl hover:border-primary/50 transition-colors text-left">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="inventory_2">inventory_2</span>
+<span class="text-sm font-medium">Main Closet</span>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="expand_more">expand_more</span>
+</button>
+<!-- Simulated Dropdown State -->
+<div class="hidden group-focus-within:block absolute top-full left-0 w-full mt-2 bg-white border border-outline/10 shadow-xl rounded-xl z-10 overflow-hidden">
+<div class="p-2 space-y-1">
+<button class="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-surface-container transition-colors">Left Wardrobe</button>
+<button class="w-full text-left px-3 py-2 rounded-lg text-sm bg-surface-container font-semibold">Main Closet</button>
+<button class="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-surface-container transition-colors">Storage</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Colors -->
+<section>
+<h3 class="text-sm font-bold uppercase tracking-widest text-secondary mb-4">Color Palette</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="p-4 bg-white border border-outline/10 rounded-2xl flex flex-col items-center gap-3">
+<span class="text-[10px] font-bold text-outline uppercase">Primary Color</span>
+<div class="relative">
+<button class="w-12 h-12 rounded-full bg-[#4A4E4D] ring-4 ring-primary/10 ring-offset-2 transition-transform active:scale-95 shadow-inner"></button>
+
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Charcoal</span>
+</div>
+<div class="p-4 bg-white border border-outline/10 rounded-2xl flex flex-col items-center gap-3">
+<span class="text-[10px] font-bold text-outline uppercase">Secondary Color</span>
+<div class="relative">
+<button class="w-12 h-12 rounded-full bg-[#D1D5D2] ring-4 ring-transparent ring-offset-2 transition-transform active:scale-95 shadow-inner"></button>
+
+</div>
+<span class="text-xs font-medium text-on-surface-variant">Stone</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Action Button -->
+<div class="mt-12">
+<button class="w-full py-4 bg-primary text-on-primary font-bold rounded-2xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-[0.98]">
+                Show 124 Results
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-20 pb-safe bg-surface-container shadow-sm rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-5 py-1 hover:bg-surface-variant transition-transform duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="grid_view">grid_view</span>
+<span class="font-label-lg text-label-lg">Browse</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1 scale-95 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="edit_calendar">edit_calendar</span>
+<span class="font-label-lg text-label-lg">Manage</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for chips
+        document.querySelectorAll('button[class*="rounded-full"]').forEach(button => {
+            button.addEventListener('click', function() {
+                if (!this.closest('nav')) {
+                    // Logic for multi-select chips
+                    if (this.classList.contains('bg-primary')) {
+                        this.classList.remove('bg-primary', 'text-on-primary');
+                        this.classList.add('text-on-surface-variant', 'hover:bg-surface-container-high');
+                    } else {
+                        this.classList.add('bg-primary', 'text-on-primary');
+                        this.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-high');
+                    }
+                }
+            });
+        });
+    </script>
+
+
+</body></html>
