@@ -28,7 +28,7 @@
     <string name="sample_linen_shirt_brand">Everlane</string>
     <string name="sample_linen_shirt_notes">A breathable linen button-down for warm days and relaxed layering.</string>
     <string name="sample_jeans_name">Vintage straight jeans</string>
-    <string name="sample_jeans_brand">Levi's 501</string>
+    <string name="sample_jeans_brand">Levi\'s 501</string>
     <string name="sample_jeans_notes">Structured blue denim with an everyday straight fit.</string>
     <string name="sample_field_jacket_name">Utility field jacket</string>
     <string name="sample_field_jacket_brand">Madewell</string>
