@@ -17,5 +17,6 @@ interface TagRepository {
     fun observeTags(): Flow<List<GarmentTag>>
     suspend fun upsertCategory(category: TagCategory)
     suspend fun upsertTag(tag: GarmentTag)
+    suspend fun deleteCustomTag(id: String)
     suspend fun seedDefaultsIfNeeded()
 }

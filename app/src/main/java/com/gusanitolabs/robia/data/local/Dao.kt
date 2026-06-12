@@ -52,6 +52,9 @@ interface TagDao {
     @Upsert
     suspend fun upsertTag(tag: GarmentTagEntity)
 
+    @Query("DELETE FROM garment_tags WHERE id = :id AND is_system = 0")
+    suspend fun deleteCustomTag(id: String)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun seedCategories(categories: List<TagCategoryEntity>)
 

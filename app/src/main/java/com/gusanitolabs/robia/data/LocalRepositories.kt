@@ -50,6 +50,10 @@ class LocalTagRepository(
         tagDao.upsertTag(tag.toEntity())
     }
 
+    override suspend fun deleteCustomTag(id: String) {
+        tagDao.deleteCustomTag(id)
+    }
+
     override suspend fun seedDefaultsIfNeeded() {
         tagDao.seedCategories(DefaultTags.categories.map(TagCategory::toEntity))
         tagDao.seedTags(DefaultTags.tags.map(GarmentTag::toEntity))
